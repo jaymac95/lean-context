@@ -10,7 +10,7 @@
 | Codex IDE extension / CLI | `$lean-context [action]` or `/skills` | `.agents/skills/lean-context/SKILL.md` |
 | Google Antigravity Agent | `/lean-context [action]` | `.agents/skills/lean-context/SKILL.md` |
 
-Supported actions are `smart`, `refresh`, `check`, `stats`, and `init`. No action means `smart`.
+Supported actions are `smart`, `refresh`, `check`, `stats`, `report`, and `init`. No action means `smart`.
 
 ## Why the runner is vendored
 
@@ -33,3 +33,7 @@ The runner is excluded from the generated project map and fingerprint.
 Claude's copy uses `disable-model-invocation: true`. Codex's `agents/openai.yaml` uses `allow_implicit_invocation: false`. This keeps lean-context opt-in rather than allowing it to activate on ordinary coding prompts.
 
 Antigravity shares the `.agents/skills` copy. Its progressive disclosure behavior means the skill body is not part of ordinary task context until the skill is selected or invoked.
+
+## Token usage reports
+
+Use `/lean-context report` in Claude/Antigravity or `$lean-context report` in Codex. The runner saves a Markdown report under `.ai-context/reports/`. Provider-reported token counts can be supplied separately (input, cached input, output) so local estimates are never presented as billing data.
