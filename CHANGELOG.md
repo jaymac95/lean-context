@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0
+
+- Added `lean-context report` to generate saved Markdown token usage reports.
+- Reports separate rough local context estimates from optional provider-reported input, cached-input, and output token counts.
+- Chat skills can now invoke the report command directly.
+
 ## 0.2.0
 
 - Added optional chat-native setup with `lean-context init . --chat`.
