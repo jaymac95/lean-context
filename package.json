@@ -1,0 +1,27 @@
+{
+  "name": "lean-context",
+  "version": "0.2.0",
+  "description": "Drop-in context optimizer with chat-native skills for Codex, Claude Code, and Google Antigravity.",
+  "type": "module",
+  "bin": {
+    "lean-context": "./bin/lean-context.js"
+  },
+  "scripts": {
+    "test": "node --test",
+    "smoke": "node ./bin/lean-context.js --help"
+  },
+  "keywords": [
+    "codex",
+    "claude-code",
+    "antigravity",
+    "agents-md",
+    "context",
+    "tokens",
+    "agent-skills",
+    "claude-skills"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}
