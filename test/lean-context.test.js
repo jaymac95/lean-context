@@ -91,3 +91,24 @@ test('chat command can be enabled after a normal init', async () => {
   await fs.access(path.join(dir, '.claude', 'skills', 'lean-context', 'SKILL.md'));
   await fs.access(path.join(dir, '.agents', 'skills', 'lean-context', 'SKILL.md'));
 });
+
+test('report command generates saved token usage report and separates observed provider usage', async () => {
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'lean-context-'));
+  await fs.writeFile(path.join(dir, 'package.json'), JSON.stringify({ scripts: { test: 'node --test' } }));
+  await fs.mkdir(path.join(dir, 'src'));
+  await fs.writeFile(path.join(dir, 'src', 'index.js'), 'export const answer = 42;\n');
+  await initProject(dir, { chat: true });
+
+  const runner = path.join(dir, '.ai-context', 'tool', 'bin', 'lean-context.js');
+  const output = '.ai-context/reports/test-report.md';
+  const { stdout } = await execFileAsync(process.execPath, [runner, 'report', '.', '--provider=codex', '--model=test-model', '--input-tokens=1200', '--cached-input-tokens=700', '--output-tokens=300', `--output=${output}`], { cwd: dir });
+  assert.match(stdout, /Generated token usage report/);
+
+  const report = await fs.readFile(path.join(dir, output), 'utf8');
+  assert.match(report, /token usage report/);
+  assert.match(report, /Provider: codex/);
+  assert.match(report, /Input tokens: 1,200/);
+  assert.match(report, /Cached input tokens: 700/);
+  assert.match(report, /Output tokens: 300/);
+  assert.match(report, /not billing measurements/);
+});
