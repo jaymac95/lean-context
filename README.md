@@ -4,7 +4,7 @@ A tiny, drop-in context optimizer for **OpenAI Codex**, **Claude Code**, and **G
 
 It does **not** change model pricing. It reduces avoidable context consumption by giving coding agents a small project map and a shared set of context-discipline rules, so they can search narrowly instead of repeatedly scanning large repositories.
 
-Version **0.2** adds optional **chat-native skills**. After one setup command, Claude Code, Codex, and Antigravity can run lean-context from their own chat panels without you opening a terminal.
+Version **0.3** adds saved **token usage reports** on top of the optional chat-native skills introduced in v0.2. After one setup command, Claude Code, Codex, and Antigravity can run lean-context from their own chat panels without you opening a terminal.
 
 ## Why this design
 
@@ -51,6 +51,7 @@ That uses smart mode. You can also run:
 /lean-context refresh
 /lean-context check
 /lean-context stats
+/lean-context report
 /lean-context init
 ```
 
@@ -76,6 +77,7 @@ Or use `/skills` and select **Lean Context**. Actions can be appended:
 $lean-context refresh
 $lean-context check
 $lean-context stats
+$lean-context report
 $lean-context init
 ```
 
@@ -101,6 +103,7 @@ or:
 /lean-context refresh
 /lean-context check
 /lean-context stats
+/lean-context report
 /lean-context init
 ```
 
@@ -162,7 +165,33 @@ Existing `AGENTS.md` and `CLAUDE.md` files are preserved. `lean-context` only ow
 | `lean-context smart [project]` | Check, refresh only if needed, then show stats |
 | `lean-context refresh [project]` | Regenerate only the project map |
 | `lean-context stats [project]` | Show a rough chars/4 token estimate |
+| `lean-context report [project]` | Save a Markdown token usage/context report under `.ai-context/reports/` |
 | `lean-context check [project]` | Exit non-zero when the map fingerprint is stale |
+
+## Generate a token usage report
+
+Create a local report with:
+
+```bash
+npx github:jaymac95/lean-context report .
+```
+
+The report is saved under `.ai-context/reports/` and includes the project-map status, indexed file count and size, rough relevant-repo token footprint, always-on instruction footprint, and on-demand skill/map footprint.
+
+If Claude, Codex, Antigravity, or an API exposes actual usage numbers, attach them without mixing them into the estimates:
+
+```bash
+npx github:jaymac95/lean-context report . \
+  --provider=codex \
+  --model=gpt-5.3-codex \
+  --input-tokens=18420 \
+  --cached-input-tokens=12100 \
+  --output-tokens=2380
+```
+
+You can also choose the report path with `--output=reports/my-run.md`. The report explicitly labels local chars/bytes ÷ 4 numbers as estimates rather than billing measurements.
+
+From the agent chats, use `/lean-context report` in Claude/Antigravity or `$lean-context report` in Codex. If you include provider usage numbers in the request, the skill passes them to the local runner.
 
 ## How it reduces waste
 
