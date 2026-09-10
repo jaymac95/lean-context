@@ -176,7 +176,7 @@ Create a local report with:
 npx github:jaymac95/lean-context report .
 ```
 
-The report is saved under `.ai-context/reports/` and includes the project-map status, indexed file count and size, rough relevant-repo token footprint, always-on instruction footprint, and on-demand skill/map footprint.
+The report is saved under `.ai-context/reports/` and includes project-map status, indexed file count, always-on instruction footprint, and on-demand skill/map footprint.
 
 If Claude, Codex, Antigravity, or an API exposes actual usage numbers, attach them without mixing them into the estimates:
 
@@ -189,7 +189,7 @@ npx github:jaymac95/lean-context report . \
   --output-tokens=2380
 ```
 
-You can also choose the report path with `--output=reports/my-run.md`. The report explicitly labels local chars/bytes ÷ 4 numbers as estimates rather than billing measurements.
+You can also choose the report path with `--output=reports/my-run.md`. The report explicitly labels local characters ÷ 4 numbers as estimates rather than billing measurements.
 
 From the agent chats, use `/lean-context report` in Claude/Antigravity or `$lean-context report` in Codex. If you include provider usage numbers in the request, the skill passes them to the local runner.
 
