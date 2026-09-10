@@ -1,0 +1,6 @@
+interface:
+  display_name: "Lean Context"
+  short_description: "Refresh/check low-token project context"
+  default_prompt: "Run lean-context smart mode for this repository."
+policy:
+  allow_implicit_invocation: false
