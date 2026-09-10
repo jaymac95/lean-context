@@ -1,6 +1,6 @@
 ---
 name: lean-context
-description: Explicitly maintain lean-context for this repository: refresh or check the generated project map, show context stats, or repair the managed context files.
+description: Explicitly maintain lean-context for this repository: refresh or check the generated project map, show context stats, generate a token usage report, or repair the managed context files.
 disable-model-invocation: true
 ---
 
@@ -17,6 +17,7 @@ Choose exactly one action from the user's request:
 - `refresh` — regenerate the project map after structural changes.
 - `check` — check whether the map is stale.
 - `stats` — report the approximate context footprint.
+- `report` — generate and save a Markdown token usage report under `.ai-context/reports/`. If the user provides provider/model/input/cached/output token numbers, pass them with `--provider=`, `--model=`, `--input-tokens=`, `--cached-input-tokens=`, and `--output-tokens=`.
 - `init` — repair/update the managed `AGENTS.md`, `CLAUDE.md`, and map while preserving user-authored text.
 - no action / `smart` — run `check`; if it reports stale, run `refresh`; then run `stats`.
 
