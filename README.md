@@ -14,14 +14,14 @@ Benchmarked with an [A/B harness](https://github.com/jaymac95/lean-context-bench
 
 | | Baseline | With lean-context | Change |
 | --- | ---: | ---: | ---: |
-| Total tokens | 705,309 | 527,444 | **−25.2%** |
-| Agent wall time | 49.4s | 36.9s | **−25.3%** |
-| Cost per run | $0.2657 | $0.2077 | **−21.8%** |
+| Total tokens | 537,233 | 485,589 | **−9.6%** |
+| Agent wall time | 34.3s | 30.2s | **−11.9%** |
+| Cost per run | $0.2062 | $0.1945 | **−5.7%** |
 | Task pass rate | 100% | 100% | no change |
 
-n=4 runs per side, one task/repo/model, Claude Code + Sonnet. Token savings are workload-dependent — see [Important caveat](#important-caveat) before treating this as a universal number. What moved it most: recognizing shared-logic files (`lib/`, `utils/`, `helpers/`) as high-signal in the generated project map, so the agent finds a helper function already listed with its symbol instead of grepping the repo to locate it.
+n=10 runs per side (20 total), one task/repo/model, Claude Code + Sonnet. This is the number worth trusting: smaller samples on the same task swung anywhere from 4.6% to 25.2% run to run — noise from the model's own stochastic tool-use choices, not the tool. Token savings are workload-dependent and this task has a modest ceiling (one shared helper to locate, in a modest-sized repo) — see [Important caveat](#important-caveat). What moves the needle: recognizing shared-logic files (`lib/`, `utils/`, `helpers/`) as high-signal in the generated project map, and auto-loading that map as always-on context for Claude Code so the agent doesn't have to remember to check it before reaching for a repo-wide search.
 
-Version **0.4** adds a **key symbols index**, **oversized data-file exclusion**, and **shared-logic file detection** to the generated project map, on top of the saved token usage reports (v0.3) and optional chat-native skills (v0.2). After one setup command, Claude Code, Codex, and Antigravity can run lean-context from their own chat panels without you opening a terminal.
+Version **0.4** adds a **key symbols index**, **oversized data-file exclusion**, **shared-logic file detection**, and an **auto-loaded project map** for Claude Code, on top of the saved token usage reports (v0.3) and optional chat-native skills (v0.2). After one setup command, Claude Code, Codex, and Antigravity can run lean-context from their own chat panels without you opening a terminal.
 
 ## Why this design
 

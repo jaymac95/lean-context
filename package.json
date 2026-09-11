@@ -1,10 +1,10 @@
 {
   "name": "lean-context",
-  "version": "0.4.1",
-  "description": "Drop-in context optimizer for Claude Code, Codex, and Google Antigravity. Measured 25% fewer tokens on a real cross-file fix, with no drop in task success.",
+  "version": "0.4.2",
+  "description": "Drop-in context optimizer for Claude Code, Codex, and Google Antigravity. Measured ~10% fewer tokens on a real cross-file fix (n=10), with no drop in task success.",
   "type": "module",
   "bin": {
-    "lean-context": "./bin/lean-context.js"
+    "lean-context": "bin/lean-context.js"
   },
   "files": [
     "bin",

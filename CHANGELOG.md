@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.2
+
+- Claude Code's managed `CLAUDE.md` block now auto-imports `.ai-context/project-map.md` via Claude Code's native `@path` import (always-on context), alongside the existing `@AGENTS.md` import. Diagnostic runs showed agents reaching straight for a repo-wide grep instead of opening the on-demand map first, despite the protocol instructing them to check it — auto-loading it removes the need for the agent to remember, at the cost of a bounded amount of always-on context. Codex/Antigravity are unaffected (they read `AGENTS.md` directly; `@path` imports are a Claude Code–specific convention).
+- Corrected the 0.4.1 changelog entry and README: the "~8% to ~25%" figure was measured at n=4 per side and turned out to be sampling noise, not a stable effect — a run of n=10 per side on the same task landed at **9.6%** total-token savings, 100% pass rate both sides. Both the shared-logic-file fix and this release's auto-imported map are real, mechanism-verified improvements (confirmed via tool-call tracing that agents stop grepping for a symbol already listed in the map), but their aggregate effect on this specific narrow task is modest — the task only has one or two avoidable tool round-trips to begin with. Treat any single-digit sample benchmark number, including in this changelog's own prior entries, with that caveat.
+
 ## 0.4.1
 
 - `importantFiles()` now recognizes shared-logic directories (`lib/`, `utils/`, `helpers/`, `services/`, `hooks/`) as high-signal, not just entry points and config files. Benchmarked against Stndrd HQ Dashboard, this alone was the difference between the agent grepping for a shared helper (`fmtDateFull`) and finding it already listed with its symbol in the project map — raised measured total-token savings on that task from ~8% to ~25%.
