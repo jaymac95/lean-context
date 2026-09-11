@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.3
+
+- README: removed a link to the private benchmark harness repo.
+
 ## 0.4.2
 
 - Claude Code's managed `CLAUDE.md` block now auto-imports `.ai-context/project-map.md` via Claude Code's native `@path` import (always-on context), alongside the existing `@AGENTS.md` import. Diagnostic runs showed agents reaching straight for a repo-wide grep instead of opening the on-demand map first, despite the protocol instructing them to check it — auto-loading it removes the need for the agent to remember, at the cost of a bounded amount of always-on context. Codex/Antigravity are unaffected (they read `AGENTS.md` directly; `@path` imports are a Claude Code–specific convention).
