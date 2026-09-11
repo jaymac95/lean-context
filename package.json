@@ -1,11 +1,19 @@
 {
   "name": "lean-context",
   "version": "0.4.1",
-  "description": "Drop-in context optimizer with chat-native skills for Codex, Claude Code, and Google Antigravity.",
+  "description": "Drop-in context optimizer for Claude Code, Codex, and Google Antigravity. Measured 25% fewer tokens on a real cross-file fix, with no drop in task success.",
   "type": "module",
   "bin": {
     "lean-context": "./bin/lean-context.js"
   },
+  "files": [
+    "bin",
+    "lib",
+    "templates",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
   "scripts": {
     "test": "node --test",
     "smoke": "node ./bin/lean-context.js --help"
@@ -21,6 +29,14 @@
     "claude-skills"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaymac95/lean-context.git"
+  },
+  "homepage": "https://github.com/jaymac95/lean-context#readme",
+  "bugs": {
+    "url": "https://github.com/jaymac95/lean-context/issues"
+  },
   "engines": {
     "node": ">=18"
   }

@@ -4,7 +4,24 @@ A tiny, drop-in context optimizer for **OpenAI Codex**, **Claude Code**, and **G
 
 It does **not** change model pricing. It reduces avoidable context consumption by giving coding agents a small project map and a shared set of context-discipline rules, so they can search narrowly instead of repeatedly scanning large repositories.
 
-Version **0.4** adds a **key symbols index** and **oversized data-file exclusion** to the generated project map, on top of the saved token usage reports (v0.3) and optional chat-native skills (v0.2). After one setup command, Claude Code, Codex, and Antigravity can run lean-context from their own chat panels without you opening a terminal.
+```bash
+npx lean-context init . --chat
+```
+
+## Measured impact
+
+Benchmarked with an [A/B harness](https://github.com/jaymac95/lean-context-benchmark) that runs the same coding-agent task twice — once against a clean baseline, once with lean-context installed — alternating order across repeated runs on a real cross-file bug-fix task:
+
+| | Baseline | With lean-context | Change |
+| --- | ---: | ---: | ---: |
+| Total tokens | 705,309 | 527,444 | **−25.2%** |
+| Agent wall time | 49.4s | 36.9s | **−25.3%** |
+| Cost per run | $0.2657 | $0.2077 | **−21.8%** |
+| Task pass rate | 100% | 100% | no change |
+
+n=4 runs per side, one task/repo/model, Claude Code + Sonnet. Token savings are workload-dependent — see [Important caveat](#important-caveat) before treating this as a universal number. What moved it most: recognizing shared-logic files (`lib/`, `utils/`, `helpers/`) as high-signal in the generated project map, so the agent finds a helper function already listed with its symbol instead of grepping the repo to locate it.
+
+Version **0.4** adds a **key symbols index**, **oversized data-file exclusion**, and **shared-logic file detection** to the generated project map, on top of the saved token usage reports (v0.3) and optional chat-native skills (v0.2). After one setup command, Claude Code, Codex, and Antigravity can run lean-context from their own chat panels without you opening a terminal.
 
 ## Why this design
 
@@ -21,10 +38,10 @@ The managed protocol tells agents to search before reading, avoid generated/lock
 
 ## Recommended setup: terminal + chat
 
-Once this repository is on GitHub, run this once from the project you want to optimize:
+Run this once from the project you want to optimize:
 
 ```bash
-npx github:YOUR_GITHUB_USERNAME/lean-context init . --chat
+npx lean-context init . --chat
 ```
 
 That installs the normal low-token context layer **and** chat commands for the coding agents.
@@ -32,8 +49,10 @@ That installs the normal low-token context layer **and** chat commands for the c
 If lean-context was already initialized without chat support, add chat support later with:
 
 ```bash
-npx github:YOUR_GITHUB_USERNAME/lean-context chat .
+npx lean-context chat .
 ```
+
+To try unreleased changes straight from GitHub instead of the published npm package, swap `lean-context` for `github:jaymac95/lean-context` in any command below.
 
 ## Run it directly from agent chats
 
@@ -173,7 +192,7 @@ Existing `AGENTS.md` and `CLAUDE.md` files are preserved. `lean-context` only ow
 Create a local report with:
 
 ```bash
-npx github:jaymac95/lean-context report .
+npx lean-context report .
 ```
 
 The report is saved under `.ai-context/reports/` and includes project-map status, indexed file count, always-on instruction footprint, and on-demand skill/map footprint.
@@ -181,7 +200,7 @@ The report is saved under `.ai-context/reports/` and includes project-map status
 If Claude, Codex, Antigravity, or an API exposes actual usage numbers, attach them without mixing them into the estimates:
 
 ```bash
-npx github:jaymac95/lean-context report . \
+npx lean-context report . \
   --provider=codex \
   --model=gpt-5.3-codex \
   --input-tokens=18420 \
