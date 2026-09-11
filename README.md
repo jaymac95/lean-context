@@ -10,7 +10,7 @@ npx lean-context init . --chat
 
 ## Measured impact
 
-Benchmarked with an [A/B harness](https://github.com/jaymac95/lean-context-benchmark) that runs the same coding-agent task twice — once against a clean baseline, once with lean-context installed — alternating order across repeated runs on a real cross-file bug-fix task:
+Benchmarked with an A/B harness that runs the same coding-agent task twice — once against a clean baseline, once with lean-context installed — alternating order across repeated runs on a real cross-file bug-fix task:
 
 | | Baseline | With lean-context | Change |
 | --- | ---: | ---: | ---: |
