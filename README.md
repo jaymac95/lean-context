@@ -4,7 +4,7 @@ A tiny, drop-in context optimizer for **OpenAI Codex**, **Claude Code**, and **G
 
 It does **not** change model pricing. It reduces avoidable context consumption by giving coding agents a small project map and a shared set of context-discipline rules, so they can search narrowly instead of repeatedly scanning large repositories.
 
-Version **0.3** adds saved **token usage reports** on top of the optional chat-native skills introduced in v0.2. After one setup command, Claude Code, Codex, and Antigravity can run lean-context from their own chat panels without you opening a terminal.
+Version **0.4** adds a **key symbols index** and **oversized data-file exclusion** to the generated project map, on top of the saved token usage reports (v0.3) and optional chat-native skills (v0.2). After one setup command, Claude Code, Codex, and Antigravity can run lean-context from their own chat panels without you opening a terminal.
 
 ## Why this design
 
@@ -200,8 +200,10 @@ From the agent chats, use `/lean-context report` in Claude/Antigravity or `$lean
 3. **Progressively loaded skills** so maintenance instructions are not fully loaded on unrelated coding tasks.
 4. **Generated project map** that records the stack, common commands, important files, and directory counts without embedding the whole source tree.
 5. **Noise filtering** for dependencies, build output, caches, lockfiles, binaries, images, source maps, minified assets, and agent configuration folders.
-6. **Targeted exploration rules** that ask the agent to search for symbols and open the smallest useful file slice.
-7. **Local deterministic chat runner** so refresh/check/stats do not require the model to reconstruct the workflow.
+6. **Oversized data-file exclusion** so fixtures/dumps/logs over 64KB (`.json`, `.csv`, `.log`, `.sql`, `.xml`, `.yaml`, `.ipynb`, …) are kept out of the index and flagged, instead of tempting an agent to read the whole thing.
+7. **Key symbols index** listing top-level exports/definitions for high-signal files, so an agent can grep a known name instead of opening the file to find it.
+8. **Targeted exploration rules** that ask the agent to search for symbols and open the smallest useful file slice.
+9. **Local deterministic chat runner** so refresh/check/stats do not require the model to reconstruct the workflow.
 
 ## Important caveat
 
